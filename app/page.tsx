@@ -60,51 +60,51 @@ export default function Home() {
   )
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         {/* Hero */}
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
-            Your everyday toolkit
+        <div className="mb-6 text-center sm:mb-8">
+          <h1 className="mb-3 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Your Everyday Toolkit
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-sm mx-auto">
+          <p className="mx-auto max-w-sm text-sm text-muted-foreground sm:text-base">
             Simple, fast, and free tools right in your browser.
           </p>
         </div>
 
         {/* Search — between subtitle and cards */}
-        <div className="relative max-w-md mx-auto mb-8 sm:mb-10">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+        <div className="relative mx-auto mb-8 max-w-md sm:mb-10">
+          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Search tools..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-9 h-10 text-sm"
+            className="h-10 pl-9 text-sm"
           />
         </div>
 
         {/* Tool grid */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {filtered.map((tool) => {
               const Icon = tool.icon
               return (
                 <Link key={tool.id} href={tool.href} className="group">
-                  <Card className="h-full transition-all duration-200 hover:shadow-md active:scale-[0.98] cursor-pointer">
+                  <Card className="h-full cursor-pointer transition-all duration-200 hover:shadow-md active:scale-[0.98]">
                     <CardContent className="flex items-start gap-4 sm:flex-col sm:items-start sm:gap-4">
                       <div
-                        className={`w-11 h-11 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${tool.iconWrapperClass}`}
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10 ${tool.iconWrapperClass}`}
                       >
-                        <Icon className={`w-5 h-5 ${tool.iconClass}`} />
+                        <Icon className={`h-5 w-5 ${tool.iconClass}`} />
                       </div>
-                      <div className="space-y-0.5 min-w-0">
-                        <p className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                      <div className="min-w-0 space-y-0.5">
+                        <p className="text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
                           {tool.name}
                         </p>
-                        <p className="text-xs text-muted-foreground leading-relaxed">
+                        <p className="text-xs leading-relaxed text-muted-foreground">
                           {tool.description}
                         </p>
                       </div>
@@ -115,8 +115,8 @@ export default function Home() {
             })}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-sm">
+          <div className="py-20 text-center">
+            <p className="text-sm text-muted-foreground">
               No tools match &ldquo;{query}&rdquo;
             </p>
           </div>

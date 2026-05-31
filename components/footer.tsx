@@ -3,13 +3,13 @@ import { Wrench } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+    <div className="px-4 sm:px-6 pb-6">
+      <footer className="max-w-5xl mx-auto rounded-2xl border border-border bg-card  px-6 py-8">
         {/* Top row */}
-        <div className="flex flex-col sm:flex-row items-start justify-between gap-6">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 text-center sm:text-left">
           {/* Left — brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="inline-flex items-center gap-2">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary">
                 <Wrench className="h-3.5 w-3.5 text-primary-foreground" />
               </div>
@@ -29,7 +29,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-5 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+        <div className="mt-6 pt-5 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground text-center sm:text-left">
           <span>
             &copy; {new Date().getFullYear()} ToolKit By BEE. All rights
             reserved.
@@ -46,7 +46,7 @@ export function Footer() {
             </a>
           </span>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   )
 }
