@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Wrench } from "lucide-react"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -10,9 +10,7 @@ export function Footer() {
           {/* Left — brand */}
           <div>
             <Link href="/" className="inline-flex items-center gap-2">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary">
-                <Wrench className="h-3.5 w-3.5 text-primary-foreground" />
-              </div>
+              <Image src="/logo.svg" alt="ToolKit By BEE" width={28} height={28} className="shrink-0" />
               <span className="text-sm font-bold text-foreground leading-none">
                 ToolKit{" "}
                 <span className="font-normal text-muted-foreground">By </span>
