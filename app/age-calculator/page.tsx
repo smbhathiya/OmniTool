@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { CalendarDays } from "lucide-react"
+import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -9,9 +9,9 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
@@ -25,9 +25,7 @@ interface AgeResult {
   nextBirthdayDate: string
 }
 
-const WEEKDAYS = [
-  "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday",
-]
+const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
 function calcAge(dob: Date): AgeResult {
   const now = new Date()
@@ -39,13 +37,9 @@ function calcAge(dob: Date): AgeResult {
 
   if (days < 0) {
     months--
-    const prev = new Date(now.getFullYear(), now.getMonth(), 0)
-    days += prev.getDate()
+    days += new Date(now.getFullYear(), now.getMonth(), 0).getDate()
   }
-  if (months < 0) {
-    years--
-    months += 12
-  }
+  if (months < 0) { years--; months += 12 }
 
   const totalDays = Math.floor((now.getTime() - dob.getTime()) / 86400000)
   const dayOfWeek = WEEKDAYS[dob.getDay()]
@@ -53,42 +47,47 @@ function calcAge(dob: Date): AgeResult {
   let next = new Date(now.getFullYear(), dob.getMonth(), dob.getDate())
   if (next <= now) next = new Date(now.getFullYear() + 1, dob.getMonth(), dob.getDate())
   const nextBirthdayDays = Math.ceil((next.getTime() - now.getTime()) / 86400000)
-  const nextBirthdayDate = next.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  })
+  const nextBirthdayDate = next.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
 
   return { years, months, days, totalDays, dayOfWeek, nextBirthdayDays, nextBirthdayDate }
 }
 
-function StatBox({ label, value, sub }: { label: string; value: string | number; sub?: string }) {
+function StatBox({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-xl border border-border bg-muted/20 p-4 text-center">
       <p className="text-2xl font-bold text-foreground">{value}</p>
       <p className="text-xs font-medium text-muted-foreground mt-0.5">{label}</p>
-      {sub && <p className="text-[10px] text-muted-foreground mt-0.5">{sub}</p>}
     </div>
   )
 }
 
 export default function AgeCalculator() {
-  const [dob, setDob] = useState("")
+  const [dob, setDob] = useState<Date | undefined>()
+  const [open, setOpen] = useState(false)
   const [result, setResult] = useState<AgeResult | null>(null)
+  const [calMonth, setCalMonth] = useState<Date>(new Date(2000, 0))
 
-  const today = new Date().toISOString().split("T")[0]
+  const today = new Date()
 
   const handleCalc = () => {
     if (!dob) return
-    const date = new Date(dob)
-    if (isNaN(date.getTime()) || date >= new Date()) return
-    setResult(calcAge(date))
+    setResult(calcAge(dob))
   }
 
   const handleReset = () => {
-    setDob("")
+    setDob(undefined)
     setResult(null)
   }
+
+  const handleSelect = (date: Date | undefined) => {
+    setDob(date)
+    setResult(null)
+    if (date) setOpen(false)
+  }
+
+  const formattedDate = dob
+    ? dob.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+    : "Pick your date of birth"
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -108,21 +107,69 @@ export default function AgeCalculator() {
                 </div>
               </div>
               <CardDescription className="mt-1">
-                Enter your date of birth to calculate your exact age
+                Select your date of birth to calculate your exact age
               </CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-5">
+              {/* Calendar date picker */}
               <div className="space-y-1.5">
-                <Label htmlFor="dob">Date of Birth</Label>
-                <Input
-                  id="dob"
-                  type="date"
-                  value={dob}
-                  max={today}
-                  onChange={(e) => { setDob(e.target.value); setResult(null) }}
-                  className="h-10"
-                />
+                <p className="text-sm font-medium text-foreground">Date of Birth</p>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <button className="w-full flex items-center gap-2 h-10 rounded-lg border border-input bg-transparent px-3 text-sm text-left transition-colors hover:bg-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                      <CalendarDays className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <span className={dob ? "text-foreground" : "text-muted-foreground"}>
+                        {formattedDate}
+                      </span>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    {/* Year / month quick nav */}
+                    <div className="flex items-center justify-between border-b border-border px-3 py-2 gap-2">
+                      <button
+                        onClick={() => setCalMonth(new Date(calMonth.getFullYear() - 1, calMonth.getMonth()))}
+                        className="p-1 rounded hover:bg-muted transition-colors"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <select
+                        value={calMonth.getFullYear()}
+                        onChange={(e) => setCalMonth(new Date(Number(e.target.value), calMonth.getMonth()))}
+                        className="text-sm font-medium bg-transparent focus:outline-none cursor-pointer"
+                      >
+                        {Array.from({ length: today.getFullYear() - 1900 + 1 }, (_, i) => today.getFullYear() - i).map((y) => (
+                          <option key={y} value={y}>{y}</option>
+                        ))}
+                      </select>
+                      <select
+                        value={calMonth.getMonth()}
+                        onChange={(e) => setCalMonth(new Date(calMonth.getFullYear(), Number(e.target.value)))}
+                        className="text-sm font-medium bg-transparent focus:outline-none cursor-pointer"
+                      >
+                        {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map((m, i) => (
+                          <option key={m} value={i}>{m}</option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => setCalMonth(new Date(calMonth.getFullYear() + 1, calMonth.getMonth()))}
+                        disabled={calMonth.getFullYear() >= today.getFullYear()}
+                        className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-30"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <Calendar
+                      mode="single"
+                      selected={dob}
+                      onSelect={handleSelect}
+                      month={calMonth}
+                      onMonthChange={setCalMonth}
+                      disabled={(date) => date > today}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="flex gap-2">
@@ -139,23 +186,17 @@ export default function AgeCalculator() {
           {result && (
             <Card>
               <CardContent className="space-y-4">
-                {/* Primary age */}
                 <div className="grid grid-cols-3 gap-3">
                   <StatBox label="Years" value={result.years} />
                   <StatBox label="Months" value={result.months} />
                   <StatBox label="Days" value={result.days} />
                 </div>
 
-                {/* Secondary stats */}
                 <div className="grid grid-cols-2 gap-3">
-                  <StatBox
-                    label="Total Days Lived"
-                    value={result.totalDays.toLocaleString()}
-                  />
+                  <StatBox label="Total Days Lived" value={result.totalDays.toLocaleString()} />
                   <StatBox label="Born On" value={result.dayOfWeek} />
                 </div>
 
-                {/* Next birthday */}
                 <div className="rounded-xl border border-border bg-orange-50 dark:bg-orange-900/20 p-4">
                   <div className="flex items-center justify-between">
                     <div>
