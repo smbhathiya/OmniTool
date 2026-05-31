@@ -2,7 +2,16 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Search, Scale, QrCode, Barcode } from "lucide-react"
+import {
+  Search,
+  Scale,
+  QrCode,
+  Barcode,
+  Fingerprint,
+  ArrowLeftRight,
+  ShieldCheck,
+  CalendarDays,
+} from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -19,45 +28,132 @@ interface Tool {
   iconWrapperClass: string
 }
 
-const tools: Tool[] = [
+interface Category {
+  id: string
+  label: string
+  tools: Tool[]
+}
+
+const categories: Category[] = [
   {
-    id: "bmi-calculator",
-    name: "BMI Calculator",
-    description:
-      "Calculate your Body Mass Index and check your health category.",
-    icon: Scale,
-    href: "/bmi-calculator",
-    iconClass: "text-blue-600 dark:text-blue-400",
-    iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+    id: "health",
+    label: "Health & Fitness",
+    tools: [
+      {
+        id: "bmi-calculator",
+        name: "BMI Calculator",
+        description: "Calculate your Body Mass Index and check your health category.",
+        icon: Scale,
+        href: "/bmi-calculator",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+      },
+      {
+        id: "age-calculator",
+        name: "Age Calculator",
+        description: "Find your exact age in years, months, and days from your date of birth.",
+        icon: CalendarDays,
+        href: "/age-calculator",
+        iconClass: "text-orange-600 dark:text-orange-400",
+        iconWrapperClass: "bg-orange-100 dark:bg-orange-900/40",
+      },
+    ],
   },
   {
-    id: "qr-generator",
-    name: "QR Generator",
-    description: "Generate QR codes for URLs, text, contacts, and more.",
-    icon: QrCode,
-    href: "/qr-generator",
-    iconClass: "text-purple-600 dark:text-purple-400",
-    iconWrapperClass: "bg-purple-100 dark:bg-purple-900/40",
+    id: "generators",
+    label: "Generators",
+    tools: [
+      {
+        id: "qr-generator",
+        name: "QR Generator",
+        description: "Generate QR codes for URLs, text, contacts, and more.",
+        icon: QrCode,
+        href: "/qr-generator",
+        iconClass: "text-purple-600 dark:text-purple-400",
+        iconWrapperClass: "bg-purple-100 dark:bg-purple-900/40",
+      },
+      {
+        id: "barcode-generator",
+        name: "Barcode Generator",
+        description: "Create barcodes in multiple standard formats instantly.",
+        icon: Barcode,
+        href: "/barcode-generator",
+        iconClass: "text-emerald-600 dark:text-emerald-400",
+        iconWrapperClass: "bg-emerald-100 dark:bg-emerald-900/40",
+      },
+      {
+        id: "guid-generator",
+        name: "GUID Generator",
+        description: "Generate cryptographically random UUIDs (version 4) in bulk.",
+        icon: Fingerprint,
+        href: "/guid-generator",
+        iconClass: "text-violet-600 dark:text-violet-400",
+        iconWrapperClass: "bg-violet-100 dark:bg-violet-900/40",
+      },
+    ],
   },
   {
-    id: "barcode-generator",
-    name: "Barcode Generator",
-    description: "Create barcodes in multiple standard formats instantly.",
-    icon: Barcode,
-    href: "/barcode-generator",
-    iconClass: "text-emerald-600 dark:text-emerald-400",
-    iconWrapperClass: "bg-emerald-100 dark:bg-emerald-900/40",
+    id: "developer",
+    label: "Developer Tools",
+    tools: [
+      {
+        id: "base64-coder",
+        name: "Base64 Coder",
+        description: "Encode text to Base64 or decode Base64 strings back to plain text.",
+        icon: ArrowLeftRight,
+        href: "/base64-coder",
+        iconClass: "text-cyan-600 dark:text-cyan-400",
+        iconWrapperClass: "bg-cyan-100 dark:bg-cyan-900/40",
+      },
+      {
+        id: "hash-generator",
+        name: "Hash Generator",
+        description: "Generate SHA-1, SHA-256, and SHA-512 hashes from any text.",
+        icon: ShieldCheck,
+        href: "/hash-generator",
+        iconClass: "text-rose-600 dark:text-rose-400",
+        iconWrapperClass: "bg-rose-100 dark:bg-rose-900/40",
+      },
+    ],
   },
 ]
+
+function ToolCard({ tool }: { tool: Tool }) {
+  const Icon = tool.icon
+  return (
+    <Link href={tool.href} className="group">
+      <Card className="h-full transition-all duration-200 hover:shadow-md active:scale-[0.98] cursor-pointer">
+        <CardContent className="flex flex-col gap-4">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${tool.iconWrapperClass}`}>
+            <Icon className={`w-5 h-5 ${tool.iconClass}`} />
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+              {tool.name}
+            </p>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {tool.description}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  )
+}
 
 export default function Home() {
   const [query, setQuery] = useState("")
 
-  const filtered = tools.filter(
-    (t) =>
-      t.name.toLowerCase().includes(query.toLowerCase()) ||
-      t.description.toLowerCase().includes(query.toLowerCase())
-  )
+  const filtered = categories
+    .map((cat) => ({
+      ...cat,
+      tools: cat.tools.filter(
+        (t) =>
+          t.name.toLowerCase().includes(query.toLowerCase()) ||
+          t.description.toLowerCase().includes(query.toLowerCase())
+      ),
+    }))
+    .filter((cat) => cat.tools.length > 0)
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -74,8 +170,8 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Search — between subtitle and cards */}
-        <div className="relative mx-auto mb-8 max-w-md sm:mb-10">
+        {/* Search */}
+        <div className="relative mx-auto mb-10 max-w-md">
           <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
@@ -86,33 +182,26 @@ export default function Home() {
           />
         </div>
 
-        {/* Tool grid */}
+        {/* Category sections */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-            {filtered.map((tool) => {
-              const Icon = tool.icon
-              return (
-                <Link key={tool.id} href={tool.href} className="group">
-                  <Card className="h-full cursor-pointer transition-all duration-200 hover:shadow-md active:scale-[0.98]">
-                    <CardContent className="flex items-start gap-4 sm:flex-col sm:items-start sm:gap-4">
-                      <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10 ${tool.iconWrapperClass}`}
-                      >
-                        <Icon className={`h-5 w-5 ${tool.iconClass}`} />
-                      </div>
-                      <div className="min-w-0 space-y-0.5">
-                        <p className="text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
-                          {tool.name}
-                        </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground">
-                          {tool.description}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              )
-            })}
+          <div className="space-y-10">
+            {filtered.map((cat) => (
+              <section key={cat.id}>
+                {/* Category heading */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-px flex-1 bg-border" />
+                  <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {cat.label}
+                  </span>
+                  <div className="h-px flex-1 bg-border" />
+                </div>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+                  {cat.tools.map((tool) => (
+                    <ToolCard key={tool.id} tool={tool} />
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
         ) : (
           <div className="py-20 text-center">
