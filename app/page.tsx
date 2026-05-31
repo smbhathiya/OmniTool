@@ -11,6 +11,9 @@ import {
   ArrowLeftRight,
   ShieldCheck,
   CalendarDays,
+  Droplets,
+  Ruler,
+  Baby,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -56,6 +59,33 @@ const categories: Category[] = [
         href: "/age-calculator",
         iconClass: "text-orange-600 dark:text-orange-400",
         iconWrapperClass: "bg-orange-100 dark:bg-orange-900/40",
+      },
+      {
+        id: "water-intake",
+        name: "Water Intake",
+        description: "Calculate your ideal daily water intake based on weight and activity level.",
+        icon: Droplets,
+        href: "/water-intake",
+        iconClass: "text-sky-600 dark:text-sky-400",
+        iconWrapperClass: "bg-sky-100 dark:bg-sky-900/40",
+      },
+      {
+        id: "ideal-weight",
+        name: "Ideal Weight",
+        description: "Find your healthy weight range using Devine, Robinson, and Miller formulas.",
+        icon: Ruler,
+        href: "/ideal-weight",
+        iconClass: "text-teal-600 dark:text-teal-400",
+        iconWrapperClass: "bg-teal-100 dark:bg-teal-900/40",
+      },
+      {
+        id: "pregnancy-due-date",
+        name: "Pregnancy Due Date",
+        description: "Estimate your due date, current week, trimester, and key milestones.",
+        icon: Baby,
+        href: "/pregnancy-due-date",
+        iconClass: "text-pink-600 dark:text-pink-400",
+        iconWrapperClass: "bg-pink-100 dark:bg-pink-900/40",
       },
     ],
   },
