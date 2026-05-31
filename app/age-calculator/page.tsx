@@ -166,7 +166,6 @@ export default function AgeCalculator() {
                       month={calMonth}
                       onMonthChange={setCalMonth}
                       disabled={(date) => date > today}
-                      initialFocus
                     />
                   </PopoverContent>
                 </Popover>
