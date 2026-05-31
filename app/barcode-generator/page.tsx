@@ -51,7 +51,7 @@ function svgToPng(svgEl: SVGSVGElement): Promise<string> {
     const img = new Image()
     img.onload = () => {
       const canvas = document.createElement("canvas")
-      const padding = 24
+      const padding = 60
       canvas.width = (bbox.width || 300) + padding * 2
       canvas.height = (bbox.height || 100) + padding * 2
       const ctx = canvas.getContext("2d")!

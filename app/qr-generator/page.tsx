@@ -26,13 +26,14 @@ function svgToPng(svgEl: SVGSVGElement, size: number): Promise<string> {
     const url = URL.createObjectURL(blob)
     const img = new Image()
     img.onload = () => {
+      const padding = 80
       const canvas = document.createElement("canvas")
-      canvas.width = size + 32
-      canvas.height = size + 32
+      canvas.width = size + padding * 2
+      canvas.height = size + padding * 2
       const ctx = canvas.getContext("2d")!
       ctx.fillStyle = "#ffffff"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(img, 16, 16, size, size)
+      ctx.drawImage(img, padding, padding, size, size)
       resolve(canvas.toDataURL("image/png"))
       URL.revokeObjectURL(url)
     }
