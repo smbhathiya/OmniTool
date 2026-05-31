@@ -143,26 +143,23 @@ export default function BMICalculator() {
 
       <main className="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-md space-y-4">
-          {/* Page title */}
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0">
-              <Scale className="w-4.5 h-4.5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div>
-              <h1 className="font-bold text-lg text-foreground leading-none">
-                BMI Calculator
-              </h1>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                Body Mass Index
-              </p>
-            </div>
-          </div>
-
           {/* Calculator card */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Enter your details</CardTitle>
-              <CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0">
+                  <Scale className="w-4.5 h-4.5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <CardTitle className="text-lg leading-none">
+                    BMI Calculator
+                  </CardTitle>
+                  <CardDescription className="mt-0.5">
+                    Body Mass Index
+                  </CardDescription>
+                </div>
+              </div>
+              <CardDescription className="mt-1">
                 Choose your preferred units for height and weight independently
               </CardDescription>
             </CardHeader>
