@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
-import { ArrowLeft, Scale } from "lucide-react"
+import { Scale } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -14,6 +13,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
 type HeightUnit = "cm" | "ft"
 type WeightUnit = "kg" | "lbs"
@@ -138,36 +139,31 @@ export default function BMICalculator() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-3">
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors text-sm"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Link>
-          <div className="h-4 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
-              <Scale className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <span className="font-semibold text-sm text-foreground">
-              BMI Calculator
-            </span>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
-      {/* Main */}
-      <main className="flex-1 flex items-start justify-center px-4 py-10">
+      <main className="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-md space-y-4">
+          {/* Page title */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0">
+              <Scale className="w-4.5 h-4.5 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div>
+              <h1 className="font-bold text-lg text-foreground leading-none">
+                BMI Calculator
+              </h1>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Body Mass Index
+              </p>
+            </div>
+          </div>
+
+          {/* Calculator card */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl">BMI Calculator</CardTitle>
+              <CardTitle className="text-base">Enter your details</CardTitle>
               <CardDescription>
-                Enter your height and weight to calculate your BMI
+                Choose your preferred units for height and weight independently
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
@@ -193,7 +189,7 @@ export default function BMICalculator() {
                     placeholder="e.g. 175"
                     value={heightCm}
                     onChange={(e) => setHeightCm(e.target.value)}
-                    className="h-9"
+                    className="h-10"
                     min="1"
                   />
                 ) : (
@@ -204,7 +200,7 @@ export default function BMICalculator() {
                         placeholder="5"
                         value={heightFt}
                         onChange={(e) => setHeightFt(e.target.value)}
-                        className="h-9 pr-8"
+                        className="h-10 pr-8"
                         min="1"
                       />
                       <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
@@ -217,7 +213,7 @@ export default function BMICalculator() {
                         placeholder="9"
                         value={heightIn}
                         onChange={(e) => setHeightIn(e.target.value)}
-                        className="h-9 pr-8"
+                        className="h-10 pr-8"
                         min="0"
                         max="11"
                       />
@@ -251,7 +247,7 @@ export default function BMICalculator() {
                     placeholder={weightUnit === "kg" ? "e.g. 70" : "e.g. 154"}
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
-                    className="h-9 pr-10"
+                    className="h-10 pr-10"
                     min="1"
                   />
                   <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
@@ -262,10 +258,10 @@ export default function BMICalculator() {
 
               {/* Actions */}
               <div className="flex gap-2 pt-1">
-                <Button onClick={handleCalculate} className="flex-1">
+                <Button onClick={handleCalculate} className="flex-1 h-10">
                   Calculate BMI
                 </Button>
-                <Button variant="outline" onClick={handleReset}>
+                <Button variant="outline" onClick={handleReset} className="h-10">
                   Reset
                 </Button>
               </div>
@@ -299,9 +295,9 @@ export default function BMICalculator() {
 
                 {/* Scale bar */}
                 <div>
-                  <div className="relative h-2.5 rounded-full overflow-hidden bg-gradient-to-r from-blue-400 via-green-400 via-yellow-400 to-red-400">
+                  <div className="relative h-3 rounded-full overflow-hidden bg-gradient-to-r from-blue-400 via-green-400 via-yellow-400 to-red-400">
                     <div
-                      className="absolute w-3 h-3 rounded-full bg-background border-2 border-foreground/70 shadow-sm transition-all duration-500"
+                      className="absolute w-4 h-4 rounded-full bg-background border-2 border-foreground/70 shadow-sm transition-all duration-500"
                       style={{
                         left: `${result.position}%`,
                         top: "50%",
@@ -309,7 +305,7 @@ export default function BMICalculator() {
                       }}
                     />
                   </div>
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5">
+                  <div className="flex justify-between text-[10px] text-muted-foreground mt-2">
                     <span>15</span>
                     <span>18.5</span>
                     <span>25</span>
@@ -331,7 +327,7 @@ export default function BMICalculator() {
                       className="flex flex-col items-center gap-1"
                     >
                       <div className={`h-1.5 w-full rounded-full ${color}`} />
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="text-[10px] text-muted-foreground text-center">
                         {label}
                       </span>
                     </div>
@@ -354,12 +350,7 @@ export default function BMICalculator() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-5">
-        <div className="max-w-5xl mx-auto px-4 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Toolkit
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

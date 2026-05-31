@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Search, Scale, QrCode, Barcode, Wrench } from "lucide-react"
+import { Search, Scale, QrCode, Barcode } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
 interface Tool {
   id: string
@@ -59,53 +61,46 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
-              <Wrench className="w-3.5 h-3.5 text-primary-foreground" />
-            </div>
-            <span className="font-semibold text-foreground">Toolkit</span>
-          </Link>
-          <div className="relative w-full max-w-xs">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
-            <Input
-              type="text"
-              placeholder="Search tools..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="pl-8 h-8 text-sm"
-            />
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
-      {/* Main */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+        {/* Hero */}
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
             Your everyday toolkit
           </h1>
-          <p className="text-muted-foreground max-w-md mx-auto text-sm sm:text-base">
+          <p className="text-sm sm:text-base text-muted-foreground max-w-sm mx-auto">
             Simple, fast, and free tools right in your browser.
           </p>
         </div>
 
+        {/* Search — between subtitle and cards */}
+        <div className="relative max-w-md mx-auto mb-8 sm:mb-10">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+          <Input
+            type="text"
+            placeholder="Search tools..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="pl-9 h-10 text-sm"
+          />
+        </div>
+
+        {/* Tool grid */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {filtered.map((tool) => {
               const Icon = tool.icon
               return (
                 <Link key={tool.id} href={tool.href} className="group">
-                  <Card className="h-full transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer">
-                    <CardContent className="flex flex-col gap-4">
+                  <Card className="h-full transition-all duration-200 hover:shadow-md active:scale-[0.98] cursor-pointer">
+                    <CardContent className="flex items-start gap-4 sm:flex-col sm:items-start sm:gap-4">
                       <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${tool.iconWrapperClass}`}
+                        className={`w-11 h-11 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${tool.iconWrapperClass}`}
                       >
                         <Icon className={`w-5 h-5 ${tool.iconClass}`} />
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-0.5 min-w-0">
                         <p className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
                           {tool.name}
                         </p>
@@ -128,13 +123,7 @@ export default function Home() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-6">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Toolkit. All rights reserved.</span>
-          <span>Built with Next.js & Tailwind CSS</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
