@@ -15,6 +15,9 @@ import {
   Ruler,
   Baby,
   FileStack,
+  Scissors,
+  Stamp,
+  Minimize2,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -159,6 +162,33 @@ const categories: Category[] = [
         href: "/pdf-merger",
         iconClass: "text-red-600 dark:text-red-400",
         iconWrapperClass: "bg-red-100 dark:bg-red-900/40",
+      },
+      {
+        id: "pdf-splitter",
+        name: "PDF Splitter",
+        description: "Separate pages from a PDF document or extract custom ranges.",
+        icon: Scissors,
+        href: "/pdf-splitter",
+        iconClass: "text-amber-600 dark:text-amber-400",
+        iconWrapperClass: "bg-amber-100 dark:bg-amber-900/40",
+      },
+      {
+        id: "pdf-watermark",
+        name: "PDF Watermark",
+        description: "Add confidential text stamps or custom watermarks across PDF pages.",
+        icon: Stamp,
+        href: "/pdf-watermark",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+      },
+      {
+        id: "pdf-compressor",
+        name: "PDF Compressor",
+        description: "Optimize object streams and structure to reduce PDF file size.",
+        icon: Minimize2,
+        href: "/pdf-compressor",
+        iconClass: "text-teal-600 dark:text-teal-400",
+        iconWrapperClass: "bg-teal-100 dark:bg-teal-900/40",
       },
     ],
   },

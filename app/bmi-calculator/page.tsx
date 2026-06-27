@@ -25,23 +25,28 @@ interface BMIResult {
   badgeClass: string
   description: string
   position: number
+  healthyWeightMin: number
+  healthyWeightMax: number
+  weightDifference: number | null
+  weightAction: "gain" | "lose" | "maintain"
+  unit: WeightUnit
 }
 
-function getCategory(bmi: number): Omit<BMIResult, "bmi" | "position"> {
+function getCategory(bmi: number): Omit<BMIResult, "bmi" | "position" | "healthyWeightMin" | "healthyWeightMax" | "weightDifference" | "weightAction" | "unit"> {
   if (bmi < 18.5)
     return {
       category: "Underweight",
       badgeClass:
         "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300",
       description:
-        "You may need to gain some weight. Consider consulting a nutritionist.",
+        "You may need to gain some weight to reach a healthy range. Consider consulting a nutritionist.",
     }
   if (bmi < 25)
     return {
       category: "Normal weight",
       badgeClass:
         "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300",
-      description: "You have a healthy body weight. Keep up the good work!",
+      description: "You have a healthy body weight! Maintain your current balanced lifestyle.",
     }
   if (bmi < 30)
     return {
@@ -49,13 +54,13 @@ function getCategory(bmi: number): Omit<BMIResult, "bmi" | "position"> {
       badgeClass:
         "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300",
       description:
-        "You may benefit from a healthier diet and regular exercise.",
+        "You may benefit from shedding a few pounds through a healthy diet and regular exercise.",
     }
   return {
     category: "Obese",
     badgeClass:
       "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300",
-    description: "It is recommended to consult a healthcare professional.",
+    description: "It is recommended to consult a healthcare professional for personalized guidance.",
   }
 }
 
@@ -83,7 +88,41 @@ function calcBMI(
   const bmi = weightKg / (heightM * heightM)
   const position = Math.min(Math.max(((bmi - 15) / 25) * 100, 2), 98)
 
-  return { bmi, position, ...getCategory(bmi) }
+  // Calculate healthy weight bounds (BMI 18.5 - 24.9) in kg
+  const minKg = 18.5 * heightM * heightM
+  const maxKg = 24.9 * heightM * heightM
+
+  let healthyWeightMin = minKg
+  let healthyWeightMax = maxKg
+  let currentWeightInUnit = weightKg
+
+  if (weightUnit === "lbs") {
+    healthyWeightMin = minKg / 0.453592
+    healthyWeightMax = maxKg / 0.453592
+    currentWeightInUnit = parseFloat(weight)
+  }
+
+  let weightAction: "gain" | "lose" | "maintain" = "maintain"
+  let weightDifference: number | null = null
+
+  if (bmi < 18.5) {
+    weightAction = "gain"
+    weightDifference = healthyWeightMin - currentWeightInUnit
+  } else if (bmi >= 25) {
+    weightAction = "lose"
+    weightDifference = currentWeightInUnit - healthyWeightMax
+  }
+
+  return {
+    bmi,
+    position,
+    healthyWeightMin,
+    healthyWeightMax,
+    weightDifference,
+    weightAction,
+    unit: weightUnit,
+    ...getCategory(bmi),
+  }
 }
 
 function UnitToggle<T extends string>({
@@ -289,6 +328,28 @@ export default function BMICalculator() {
                 <p className="text-sm text-muted-foreground">
                   {result.description}
                 </p>
+
+                {/* Weight Gain/Loss & Healthy Range Details */}
+                <div className="p-3.5 rounded-xl border bg-muted/30 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Healthy Weight Range:</span>
+                    <span className="font-semibold text-foreground">
+                      {result.healthyWeightMin.toFixed(1)} - {result.healthyWeightMax.toFixed(1)} {result.unit}
+                    </span>
+                  </div>
+                  {result.weightAction === "maintain" ? (
+                    <div className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                      ✓ You are currently within your target healthy weight range!
+                    </div>
+                  ) : (
+                    <div className="text-xs flex items-center justify-between pt-1 border-t border-border/60">
+                      <span className="text-muted-foreground">Recommended Goal:</span>
+                      <span className={`font-bold ${result.weightAction === "lose" ? "text-amber-600 dark:text-amber-400" : "text-blue-600 dark:text-blue-400"}`}>
+                        {result.weightAction === "lose" ? "Lose" : "Gain"} ~{result.weightDifference?.toFixed(1)} {result.unit}
+                      </span>
+                    </div>
+                  )}
+                </div>
 
                 {/* Scale bar */}
                 <div>
