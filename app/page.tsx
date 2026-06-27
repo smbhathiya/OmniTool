@@ -14,6 +14,7 @@ import {
   Droplets,
   Ruler,
   Baby,
+  FileStack,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -143,6 +144,21 @@ const categories: Category[] = [
         href: "/hash-generator",
         iconClass: "text-rose-600 dark:text-rose-400",
         iconWrapperClass: "bg-rose-100 dark:bg-rose-900/40",
+      },
+    ],
+  },
+  {
+    id: "document",
+    label: "Document Tools",
+    tools: [
+      {
+        id: "pdf-merger",
+        name: "PDF Merger",
+        description: "Combine multiple PDF files into a single document seamlessly.",
+        icon: FileStack,
+        href: "/pdf-merger",
+        iconClass: "text-red-600 dark:text-red-400",
+        iconWrapperClass: "bg-red-100 dark:bg-red-900/40",
       },
     ],
   },
