@@ -180,7 +180,7 @@ export default function BMICalculator() {
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
 
-      <main className="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
+      <main className="flex-1 flex items-start justify-center px-4 pt-24 pb-12 sm:pt-28 sm:pb-16">
         <div className="w-full max-w-md space-y-4">
           {/* Calculator card */}
           <Card>

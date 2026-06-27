@@ -235,7 +235,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 sm:pb-14">
         {/* Hero */}
         <div className="mb-6 text-center sm:mb-8">
           <h1 className="mb-3 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">

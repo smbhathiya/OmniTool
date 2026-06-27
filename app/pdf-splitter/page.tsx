@@ -339,7 +339,7 @@ export default function PDFSplitter() {
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
 
-      <main className="flex-1 container mx-auto px-4 py-8 max-w-4xl">
+      <main className="flex-1 container mx-auto px-4 pt-24 pb-12 max-w-4xl">
         <div className="mb-8 text-center">
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-amber-500/10 text-amber-500 mb-4">
             <Scissors className="w-8 h-8" />
