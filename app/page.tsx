@@ -18,6 +18,7 @@ import {
   Scissors,
   Stamp,
   Minimize2,
+  Layers,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -155,6 +156,15 @@ const categories: Category[] = [
     label: "Document Tools",
     tools: [
       {
+        id: "pdf-organizer",
+        name: "PDF Split & Merge Studio",
+        description: "Upload multiple PDFs, split into pages, reorder, rotate & merge.",
+        icon: Layers,
+        href: "/pdf-organizer",
+        iconClass: "text-indigo-600 dark:text-indigo-400",
+        iconWrapperClass: "bg-indigo-100 dark:bg-indigo-900/40",
+      },
+      {
         id: "pdf-merger",
         name: "PDF Merger",
         description: "Combine multiple PDF files into a single document seamlessly.",
@@ -236,26 +246,27 @@ export default function Home() {
       <Navbar />
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 sm:pb-14">
-        {/* Hero */}
-        <div className="mb-6 text-center sm:mb-8">
-          <h1 className="mb-3 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Your Everyday Toolkit
-          </h1>
-          <p className="mx-auto max-w-sm text-sm text-muted-foreground sm:text-base">
-            Simple, fast, and free tools right in your browser.
-          </p>
-        </div>
+        {/* Hero & Search Header */}
+        <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="text-left">
+            <h1 className="mb-2 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Your Everyday Toolkit
+            </h1>
+            <p className="text-sm text-muted-foreground sm:text-base">
+              Simple, fast, and free tools right in your browser.
+            </p>
+          </div>
 
-        {/* Search */}
-        <div className="relative mx-auto mb-10 max-w-md">
-          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search tools..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="h-10 pl-9 text-sm"
-          />
+          <div className="relative w-full sm:w-80 shrink-0">
+            <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search tools..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="h-10 pl-9 text-sm w-full"
+            />
+          </div>
         </div>
 
         {/* Category sections */}

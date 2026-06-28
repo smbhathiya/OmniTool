@@ -3,14 +3,14 @@ import Image from "next/image"
 
 export function Footer() {
   return (
-    <div className="px-4 sm:px-6 pb-6">
-      <footer className="max-w-5xl mx-auto rounded-2xl border border-border bg-card  px-6 py-8">
+    <footer className="w-full border-t border-border bg-background px-4 sm:px-6 py-8 mt-auto">
+      <div className="max-w-5xl mx-auto">
         {/* Top row */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 text-center sm:text-left">
           {/* Left — brand */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-2">
-              <Image src="/logo.svg" alt="ToolKit By BEE" width={28} height={28} className="shrink-0" />
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
+              <Image src="/logo.svg" alt="ToolKit By BEE" width={30} height={30} className="shrink-0 dark:invert group-hover:scale-105 transition-transform" />
               <span className="text-sm font-bold text-foreground leading-none">
                 ToolKit{" "}
                 <span className="font-normal text-muted-foreground">By </span>
@@ -44,7 +44,7 @@ export function Footer() {
             </a>
           </span>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   )
 }
