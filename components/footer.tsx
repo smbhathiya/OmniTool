@@ -68,6 +68,16 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-muted-foreground">
               <li>
+                <Link href="/image-compressor" className="hover:text-foreground transition-colors">
+                  Image Size Reducer
+                </Link>
+              </li>
+              <li>
+                <Link href="/image-converter" className="hover:text-foreground transition-colors">
+                  Any Image Converter
+                </Link>
+              </li>
+              <li>
                 <Link href="/qr-generator" className="hover:text-foreground transition-colors">
                   QR Code Generator
                 </Link>
