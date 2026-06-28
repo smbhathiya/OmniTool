@@ -229,8 +229,10 @@ function ToolCard({ tool }: { tool: Tool }) {
 
 export default function Home() {
   const [query, setQuery] = useState("")
+  const [activeCategory, setActiveCategory] = useState<string>("all")
 
   const filtered = categories
+    .filter((cat) => activeCategory === "all" || cat.id === activeCategory)
     .map((cat) => ({
       ...cat,
       tools: cat.tools.filter(
@@ -247,7 +249,7 @@ export default function Home() {
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 sm:pb-14">
         {/* Hero & Search Header */}
-        <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="text-left">
             <h1 className="mb-2 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
               Your Everyday Toolkit
@@ -267,6 +269,33 @@ export default function Home() {
               className="h-10 pl-9 text-sm w-full"
             />
           </div>
+        </div>
+
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-8">
+          <button
+            onClick={() => setActiveCategory("all")}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              activeCategory === "all"
+                ? "bg-foreground text-background shadow-sm"
+                : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+            }`}
+          >
+            All Tools
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                activeCategory === cat.id
+                  ? "bg-foreground text-background shadow-sm"
+                  : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
         {/* Category sections */}

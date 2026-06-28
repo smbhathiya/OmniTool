@@ -3,42 +3,106 @@ import Image from "next/image"
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-border bg-background px-4 sm:px-6 py-8 mt-auto">
-      <div className="max-w-5xl mx-auto">
-        {/* Top row */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 text-center sm:text-left">
-          {/* Left — brand */}
-          <div>
+    <footer className="w-full border-t border-border/60 bg-background/50 backdrop-blur-sm px-4 sm:px-6 py-12 mt-auto">
+      <div className="max-w-5xl mx-auto space-y-10">
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand Col */}
+          <div className="md:col-span-2 space-y-3">
             <Link href="/" className="inline-flex items-center gap-2.5 group">
-              <Image src="/logo.svg" alt="ToolKit By BEE" width={30} height={30} className="shrink-0 dark:invert group-hover:scale-105 transition-transform" />
-              <span className="text-sm font-bold text-foreground leading-none">
-                ToolKit{" "}
-                <span className="font-normal text-muted-foreground">By </span>
-                <span className="font-bold text-foreground">BEE</span>
-              </span>
+              <Image
+                src="/logo.svg"
+                alt="ToolKit By BEE"
+                width={32}
+                height={32}
+                className="shrink-0 dark:invert group-hover:scale-105 transition-transform"
+              />
+              <div className="flex items-center gap-2">
+                <span className="text-base font-extrabold tracking-tight text-foreground">
+                  ToolKit
+                </span>
+                <span className="bg-foreground text-background text-[10px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider">
+                  BEE
+                </span>
+              </div>
             </Link>
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-sm">
+              A modern suite of fast, privacy-focused, and free browser tools. 
+              Process PDFs, calculate health metrics, and generate code directly on your device.
+            </p>
           </div>
 
-          {/* Right — tagline */}
-          <p className="text-xs text-muted-foreground leading-relaxed sm:text-right max-w-[220px]">
-            Simple, fast, and free tools for your everyday tasks right in your
-            browser.
-          </p>
+          {/* Quick Links — PDF Tools */}
+          <div className="space-y-3 text-xs">
+            <h4 className="font-bold uppercase tracking-wider text-foreground text-[11px]">
+              PDF Tools
+            </h4>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>
+                <Link href="/pdf-organizer" className="hover:text-foreground transition-colors">
+                  Split & Merge Studio
+                </Link>
+              </li>
+              <li>
+                <Link href="/pdf-merger" className="hover:text-foreground transition-colors">
+                  PDF Merger
+                </Link>
+              </li>
+              <li>
+                <Link href="/pdf-splitter" className="hover:text-foreground transition-colors">
+                  PDF Splitter
+                </Link>
+              </li>
+              <li>
+                <Link href="/pdf-compressor" className="hover:text-foreground transition-colors">
+                  PDF Compressor
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Quick Links — Utilities */}
+          <div className="space-y-3 text-xs">
+            <h4 className="font-bold uppercase tracking-wider text-foreground text-[11px]">
+              Generators & Tools
+            </h4>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>
+                <Link href="/qr-generator" className="hover:text-foreground transition-colors">
+                  QR Code Generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/guid-generator" className="hover:text-foreground transition-colors">
+                  GUID / UUID Generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/hash-generator" className="hover:text-foreground transition-colors">
+                  Hash Generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/bmi-calculator" className="hover:text-foreground transition-colors">
+                  BMI Calculator
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-6 pt-5 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground text-center sm:text-left">
+        {/* Bottom Bar */}
+        <div className="pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <span>
-            &copy; {new Date().getFullYear()} ToolKit By BEE. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} ToolKit By BEE. All rights reserved.
           </span>
-          <span>
-            Developed by{" "}
+          <span className="flex items-center gap-1">
+            Developed with care by{" "}
             <a
               href="https://bhathiya.dev"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-foreground hover:underline underline-offset-4 transition-colors"
+              className="font-bold text-foreground hover:underline underline-offset-4 transition-colors"
             >
               bhathiya.dev
             </a>
