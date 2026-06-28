@@ -19,6 +19,8 @@ import {
   Stamp,
   Minimize2,
   Layers,
+  FileImage,
+  Zap,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -91,6 +93,30 @@ const categories: Category[] = [
         href: "/pregnancy-due-date",
         iconClass: "text-pink-600 dark:text-pink-400",
         iconWrapperClass: "bg-pink-100 dark:bg-pink-900/40",
+      },
+    ],
+  },
+  {
+    id: "media",
+    label: "Media & Images",
+    tools: [
+      {
+        id: "image-converter",
+        name: "Any Image Converter",
+        description: "Convert PNG, JPG, WEBP, BMP, GIF & SVG to any format client-side.",
+        icon: FileImage,
+        href: "/image-converter",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+      },
+      {
+        id: "image-compressor",
+        name: "Image Size Reducer",
+        description: "Intelligently shrink image file size up to 80% with zero quality loss.",
+        icon: Zap,
+        href: "/image-compressor",
+        iconClass: "text-amber-600 dark:text-amber-400",
+        iconWrapperClass: "bg-amber-100 dark:bg-amber-900/40",
       },
     ],
   },
