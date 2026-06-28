@@ -14,6 +14,11 @@ import {
   Droplets,
   Ruler,
   Baby,
+  FileStack,
+  Scissors,
+  Stamp,
+  Minimize2,
+  Layers,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -146,6 +151,57 @@ const categories: Category[] = [
       },
     ],
   },
+  {
+    id: "document",
+    label: "Document Tools",
+    tools: [
+      {
+        id: "pdf-organizer",
+        name: "PDF Split & Merge Studio",
+        description: "Upload multiple PDFs, split into pages, reorder, rotate & merge.",
+        icon: Layers,
+        href: "/pdf-organizer",
+        iconClass: "text-indigo-600 dark:text-indigo-400",
+        iconWrapperClass: "bg-indigo-100 dark:bg-indigo-900/40",
+      },
+      {
+        id: "pdf-merger",
+        name: "PDF Merger",
+        description: "Combine multiple PDF files into a single document seamlessly.",
+        icon: FileStack,
+        href: "/pdf-merger",
+        iconClass: "text-red-600 dark:text-red-400",
+        iconWrapperClass: "bg-red-100 dark:bg-red-900/40",
+      },
+      {
+        id: "pdf-splitter",
+        name: "PDF Splitter",
+        description: "Separate pages from a PDF document or extract custom ranges.",
+        icon: Scissors,
+        href: "/pdf-splitter",
+        iconClass: "text-amber-600 dark:text-amber-400",
+        iconWrapperClass: "bg-amber-100 dark:bg-amber-900/40",
+      },
+      {
+        id: "pdf-watermark",
+        name: "PDF Watermark",
+        description: "Add confidential text stamps or custom watermarks across PDF pages.",
+        icon: Stamp,
+        href: "/pdf-watermark",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+      },
+      {
+        id: "pdf-compressor",
+        name: "PDF Compressor",
+        description: "Optimize object streams and structure to reduce PDF file size.",
+        icon: Minimize2,
+        href: "/pdf-compressor",
+        iconClass: "text-teal-600 dark:text-teal-400",
+        iconWrapperClass: "bg-teal-100 dark:bg-teal-900/40",
+      },
+    ],
+  },
 ]
 
 function ToolCard({ tool }: { tool: Tool }) {
@@ -173,8 +229,10 @@ function ToolCard({ tool }: { tool: Tool }) {
 
 export default function Home() {
   const [query, setQuery] = useState("")
+  const [activeCategory, setActiveCategory] = useState<string>("all")
 
   const filtered = categories
+    .filter((cat) => activeCategory === "all" || cat.id === activeCategory)
     .map((cat) => ({
       ...cat,
       tools: cat.tools.filter(
@@ -189,27 +247,55 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-        {/* Hero */}
-        <div className="mb-6 text-center sm:mb-8">
-          <h1 className="mb-3 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Your Everyday Toolkit
-          </h1>
-          <p className="mx-auto max-w-sm text-sm text-muted-foreground sm:text-base">
-            Simple, fast, and free tools right in your browser.
-          </p>
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 sm:pb-14">
+        {/* Hero & Search Header */}
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="text-left">
+            <h1 className="mb-2 text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Your Everyday Toolkit
+            </h1>
+            <p className="text-sm text-muted-foreground sm:text-base">
+              Simple, fast, and free tools right in your browser.
+            </p>
+          </div>
+
+          <div className="relative w-full sm:w-80 shrink-0">
+            <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search tools..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="h-10 pl-9 text-sm w-full"
+            />
+          </div>
         </div>
 
-        {/* Search */}
-        <div className="relative mx-auto mb-10 max-w-md">
-          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search tools..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="h-10 pl-9 text-sm"
-          />
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-8">
+          <button
+            onClick={() => setActiveCategory("all")}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              activeCategory === "all"
+                ? "bg-foreground text-background shadow-sm"
+                : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+            }`}
+          >
+            All Tools
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                activeCategory === cat.id
+                  ? "bg-foreground text-background shadow-sm"
+                  : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
         {/* Category sections */}
