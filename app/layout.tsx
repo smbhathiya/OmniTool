@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
-  title: "ToolKit By BEE",
+  title: "OmniTool By BEE",
   description: "Simple, fast, and free tools for your everyday tasks.",
 }
 

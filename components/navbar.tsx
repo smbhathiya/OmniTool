@@ -43,7 +43,7 @@ export function Navbar() {
           <div className="relative">
             <Image
               src="/logo.svg"
-              alt="ToolKit By BEE"
+              alt="OmniTool By BEE"
               width={32}
               height={32}
               className="shrink-0 dark:invert group-hover:scale-105 transition-transform duration-200"
@@ -51,7 +51,7 @@ export function Navbar() {
           </div>
           <div className="flex items-center gap-2">
             <span className="text-base font-extrabold tracking-tight text-foreground">
-              ToolKit
+              OmniTool
             </span>
             <span className="bg-foreground text-background text-[10px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider">
               BEE
