@@ -12,14 +12,14 @@ export function Footer() {
             <Link href="/" className="inline-flex items-center gap-2.5 group">
               <Image
                 src="/logo.svg"
-                alt="ToolKit By BEE"
+                alt="OmniTool By BEE"
                 width={32}
                 height={32}
                 className="shrink-0 dark:invert group-hover:scale-105 transition-transform"
               />
               <div className="flex items-center gap-2">
                 <span className="text-base font-extrabold tracking-tight text-foreground">
-                  ToolKit
+                  OmniTool
                 </span>
                 <span className="bg-foreground text-background text-[10px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider">
                   BEE
@@ -104,7 +104,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <span>
-            &copy; {new Date().getFullYear()} ToolKit By BEE. All rights reserved.
+            &copy; {new Date().getFullYear()} OmniTool By BEE. All rights reserved.
           </span>
           <span className="flex items-center gap-1">
             Developed with care by{" "}
