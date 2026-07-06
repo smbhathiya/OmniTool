@@ -21,6 +21,9 @@ import {
   Layers,
   FileImage,
   Zap,
+  Braces,
+  KeyRound,
+  Palette,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -151,6 +154,24 @@ const categories: Category[] = [
         iconClass: "text-violet-600 dark:text-violet-400",
         iconWrapperClass: "bg-violet-100 dark:bg-violet-900/40",
       },
+      {
+        id: "password-generator",
+        name: "Password Generator",
+        description: "Generate custom, cryptographically secure passwords client-side.",
+        icon: KeyRound,
+        href: "/password-generator",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+      },
+      {
+        id: "color-palette-generator",
+        name: "Color Palette Generator",
+        description: "Design matching color schemes using visual harmony algorithms.",
+        icon: Palette,
+        href: "/color-palette-generator",
+        iconClass: "text-amber-600 dark:text-amber-400",
+        iconWrapperClass: "bg-amber-100 dark:bg-amber-900/40",
+      },
     ],
   },
   {
@@ -174,6 +195,15 @@ const categories: Category[] = [
         href: "/hash-generator",
         iconClass: "text-rose-600 dark:text-rose-400",
         iconWrapperClass: "bg-rose-100 dark:bg-rose-900/40",
+      },
+      {
+        id: "json-formatter",
+        name: "JSON Formatter & Validator",
+        description: "Format, validate, and tree-visualize JSON data client-side.",
+        icon: Braces,
+        href: "/json-formatter",
+        iconClass: "text-purple-600 dark:text-purple-400",
+        iconWrapperClass: "bg-purple-100 dark:bg-purple-900/40",
       },
     ],
   },
