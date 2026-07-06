@@ -21,6 +21,10 @@ import {
   Layers,
   FileImage,
   Zap,
+  Braces,
+  KeyRound,
+  Palette,
+  Sparkles,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -151,6 +155,33 @@ const categories: Category[] = [
         iconClass: "text-violet-600 dark:text-violet-400",
         iconWrapperClass: "bg-violet-100 dark:bg-violet-900/40",
       },
+      {
+        id: "password-generator",
+        name: "Password Generator",
+        description: "Generate custom, cryptographically secure passwords client-side.",
+        icon: KeyRound,
+        href: "/password-generator",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        iconWrapperClass: "bg-blue-100 dark:bg-blue-900/40",
+      },
+      {
+        id: "color-palette-generator",
+        name: "Color Palette Generator",
+        description: "Design matching color schemes using visual harmony algorithms.",
+        icon: Palette,
+        href: "/color-palette-generator",
+        iconClass: "text-amber-600 dark:text-amber-400",
+        iconWrapperClass: "bg-amber-100 dark:bg-amber-900/40",
+      },
+      {
+        id: "blob-generator",
+        name: "SVG Blob Generator",
+        description: "Generate unique, organic vector SVG shapes and gradients.",
+        icon: Sparkles,
+        href: "/blob-generator",
+        iconClass: "text-purple-600 dark:text-purple-400",
+        iconWrapperClass: "bg-purple-100 dark:bg-purple-900/40",
+      },
     ],
   },
   {
@@ -174,6 +205,15 @@ const categories: Category[] = [
         href: "/hash-generator",
         iconClass: "text-rose-600 dark:text-rose-400",
         iconWrapperClass: "bg-rose-100 dark:bg-rose-900/40",
+      },
+      {
+        id: "json-formatter",
+        name: "JSON Formatter & Validator",
+        description: "Format, validate, and tree-visualize JSON data client-side.",
+        icon: Braces,
+        href: "/json-formatter",
+        iconClass: "text-purple-600 dark:text-purple-400",
+        iconWrapperClass: "bg-purple-100 dark:bg-purple-900/40",
       },
     ],
   },
@@ -273,7 +313,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 sm:pb-14">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 sm:pb-14">
         {/* Hero & Search Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="text-left">
@@ -337,7 +377,7 @@ export default function Home() {
                   </span>
                   <div className="h-px flex-1 bg-border" />
                 </div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
                   {cat.tools.map((tool) => (
                     <ToolCard key={tool.id} tool={tool} />
                   ))}
