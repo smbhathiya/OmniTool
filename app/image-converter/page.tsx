@@ -574,7 +574,13 @@ export default function ImageConverter() {
                     <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       {/* Left Thumbnail & Info */}
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <div className="w-14 h-14 rounded-lg border border-border bg-muted/30 flex items-center justify-center overflow-hidden shrink-0 relative">
+                        <div
+                          style={{
+                            backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 8 8'%3E%3Crect width='4' height='4' fill='%238882'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%238882'/%3E%3C/svg%3E\")",
+                            backgroundSize: "16px 16px"
+                          }}
+                          className="w-14 h-14 rounded-lg border border-border bg-muted/30 flex items-center justify-center overflow-hidden shrink-0 relative"
+                        >
                           <img
                             src={item.originalUrl}
                             alt={item.originalName}
