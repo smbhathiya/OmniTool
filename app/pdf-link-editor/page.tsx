@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { PDFDocument, PDFName, PDFString } from "pdf-lib"
 import {
   Link2,
@@ -33,7 +33,6 @@ import { Footer } from "@/components/footer"
 
 const PDFJS_SCRIPT = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
 const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
-const URL_PRESETS = ["https://google.com", "https://github.com", "https://youtube.com", "mailto:"]
 
 interface LinkHotspot {
   id: string
@@ -174,9 +173,14 @@ export default function PdfLinkEditor() {
     }
   }, [])
 
-  useEffect(() => {
-    if (numPages > 0) renderPage(currentPage, zoom)
-  }, [currentPage, zoom, numPages, renderPage])
+  const goToPage = useCallback(
+    (pageNum: number) => {
+      if (pageNum < 1 || pageNum > numPages) return
+      setCurrentPage(pageNum)
+      renderPage(pageNum, zoom)
+    },
+    [numPages, zoom, renderPage]
+  )
 
   const processFile = async (file: File) => {
     if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
@@ -201,7 +205,9 @@ export default function PdfLinkEditor() {
       const fitWidth = (container?.clientWidth ?? 700) - 32
       const firstPage = await doc.getPage(1)
       const baseViewport = firstPage.getViewport({ scale: 1 })
-      setZoom(Math.min(fitWidth / baseViewport.width, 1.4))
+      const initialZoom = Math.min(fitWidth / baseViewport.width, 1.4)
+      setZoom(initialZoom)
+      renderPage(1, initialZoom)
 
       showNotice(`Document loaded — ${doc.numPages} page${doc.numPages === 1 ? "" : "s"}.`)
 
@@ -250,8 +256,13 @@ export default function PdfLinkEditor() {
     setErrorMessage(null)
   }
 
-  const zoomIn = () => setZoom((z) => Math.min(2.5, +(z + 0.15).toFixed(2)))
-  const zoomOut = () => setZoom((z) => Math.max(0.3, +(z - 0.15).toFixed(2)))
+  const applyZoom = (newZoom: number) => {
+    const clamped = Math.max(0.3, Math.min(2.5, +newZoom.toFixed(2)))
+    setZoom(clamped)
+    renderPage(currentPage, clamped)
+  }
+  const zoomIn = () => applyZoom(zoom + 0.15)
+  const zoomOut = () => applyZoom(zoom - 0.15)
 
   // ---- Drawing new hotspots ----
   const handleOverlayPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -408,7 +419,7 @@ export default function PdfLinkEditor() {
   }
 
   const focusLink = (link: LinkHotspot) => {
-    if (link.pageIndex + 1 !== currentPage) setCurrentPage(link.pageIndex + 1)
+    if (link.pageIndex + 1 !== currentPage) goToPage(link.pageIndex + 1)
   }
 
   const clearAllLinks = () => {
@@ -590,7 +601,7 @@ export default function PdfLinkEditor() {
               {Array.from({ length: numPages }, (_, i) => i + 1).map((pageNum) => (
                 <button
                   key={pageNum}
-                  onClick={() => setCurrentPage(pageNum)}
+                  onClick={() => goToPage(pageNum)}
                   className={`shrink-0 rounded-lg border p-1.5 transition-all ${
                     pageNum === currentPage
                       ? "border-primary bg-primary/5 ring-1 ring-primary/30"
@@ -648,13 +659,13 @@ export default function PdfLinkEditor() {
                 </div>
 
                 <div className="flex items-center gap-1.5">
-                  <Button variant="ghost" size="icon-sm" onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} disabled={currentPage <= 1}>
+                  <Button variant="ghost" size="icon-sm" onClick={() => goToPage(currentPage - 1)} disabled={currentPage <= 1}>
                     <ChevronLeft className="w-4 h-4" />
                   </Button>
                   <span className="text-xs font-medium text-muted-foreground whitespace-nowrap px-1">
                     Page {currentPage} / {numPages}
                   </span>
-                  <Button variant="ghost" size="icon-sm" onClick={() => setCurrentPage((p) => Math.min(numPages, p + 1))} disabled={currentPage >= numPages}>
+                  <Button variant="ghost" size="icon-sm" onClick={() => goToPage(currentPage + 1)} disabled={currentPage >= numPages}>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                   <div className="w-px h-4 bg-border mx-1" />
@@ -868,23 +879,6 @@ export default function PdfLinkEditor() {
                     <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {dialog.error}
                   </p>
                 )}
-              </div>
-
-              <div>
-                <span className="block text-[10px] font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">
-                  Quick Presets
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {URL_PRESETS.map((preset) => (
-                    <button
-                      key={preset}
-                      onClick={() => setDialog((d) => ({ ...d, value: preset, error: "" }))}
-                      className="text-xs bg-muted hover:bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-md transition-all"
-                    >
-                      {preset === "mailto:" ? "Email Link" : preset.replace("https://", "")}
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
 
