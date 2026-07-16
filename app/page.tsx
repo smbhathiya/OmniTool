@@ -25,6 +25,7 @@ import {
   KeyRound,
   Palette,
   Sparkles,
+  Link2,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -265,6 +266,15 @@ const categories: Category[] = [
         href: "/pdf-compressor",
         iconClass: "text-teal-600 dark:text-teal-400",
         iconWrapperClass: "bg-teal-100 dark:bg-teal-900/40",
+      },
+      {
+        id: "pdf-link-editor",
+        name: "PDF Link Editor",
+        description: "Draw clickable hotspots on PDF pages and attach real URL links.",
+        icon: Link2,
+        href: "/pdf-link-editor",
+        iconClass: "text-violet-600 dark:text-violet-400",
+        iconWrapperClass: "bg-violet-100 dark:bg-violet-900/40",
       },
     ],
   },

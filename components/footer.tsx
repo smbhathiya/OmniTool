@@ -58,6 +58,11 @@ export function Footer() {
                   PDF Compressor
                 </Link>
               </li>
+              <li>
+                <Link href="/pdf-link-editor" className="hover:text-foreground transition-colors">
+                  PDF Link Editor
+                </Link>
+              </li>
             </ul>
           </div>
 
